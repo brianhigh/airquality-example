@@ -36,7 +36,7 @@ qplot(Temp, Ozone, data=df, geom=c("point", "smooth"), method="lm")
 df$Date <- as.Date(paste("1973", df$Month, df$Day, sep="-"), "%Y-%m-%d")
 
 # Plot Temp, Wind, Solar.R, and Ozone with respect to Date
-ggplot(df,aes(x=Date)) + ylab("") + labs(color="") +
+ggplot(df, aes(x=Date)) + ylab("") + labs(color="") +
     geom_point(aes(y=Temp, color='Temp')) + 
     geom_point(aes(y=Wind, color='Wind')) + 
     geom_point(aes(y=Solar.R, color='Solar.R')) + 
