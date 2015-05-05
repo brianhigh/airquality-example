@@ -5,7 +5,6 @@
 # Load the dataset
 library(datasets)
 data(airquality)
-attach(airquality)
 
 # Examine the data structure
 str(airquality)
