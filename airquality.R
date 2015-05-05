@@ -34,8 +34,8 @@ qplot(Temp, Ozone, data=df, geom=c("point", "smooth"), method="lm")
 # Create a new Date column from Month and Day, using "1973" as the year 
 df$Date <- as.Date(paste("1973", df$Month, df$Day, sep="-"), "%Y-%m-%d")
 
-# Plot Temp, Wind, Solar.R, and Ozone versus Date (time series)
-ggplot(df, aes(x=Date)) + ylab("") + labs(color="") +
+# Plot Temp, Wind, Solar.R, and Ozone versus Date with log10 y-axis scale
+ggplot(df, aes(x=Date)) + ylab("") + labs(color="") + scale_y_log10() +
     geom_point(aes(y=Temp, color='Temp')) + 
     geom_point(aes(y=Wind, color='Wind')) + 
     geom_point(aes(y=Solar.R, color='Solar.R')) + 
