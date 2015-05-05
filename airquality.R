@@ -1,6 +1,6 @@
 # Explore "New York Air Quality Measurements" from the "dataset" package in R.
 # http://stat.ethz.ch/R-manual/R-patched/library/datasets/html/airquality.html
-# Brian High, 2015-05-05, https://creativecommons.org/publicdomain/zero/1.0/
+# Brian High, 2015-05-05, CC0, https://github.com/brianhigh/airquality-example
 
 # Load the dataset
 library(datasets)
