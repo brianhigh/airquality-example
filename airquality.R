@@ -8,10 +8,10 @@ data(airquality)
 attach(airquality)
 
 # Examine the data structure
-head(airquality)
+str(airquality)
 
 # View the first few rows
-str(airquality)
+head(airquality)
 
 # Produce a basic statistical summary 
 summary(airquality)
@@ -35,7 +35,7 @@ qplot(Temp, Ozone, data=df, geom=c("point", "smooth"), method="lm")
 # Create a new Date column from Month and Day, using "1973" as the year 
 df$Date <- as.Date(paste("1973", df$Month, df$Day, sep="-"), "%Y-%m-%d")
 
-# Plot Temp, Wind, Solar.R, and Ozone with respect to Date
+# Plot Temp, Wind, Solar.R, and Ozone versus Date (time series)
 ggplot(df, aes(x=Date)) + ylab("") + labs(color="") +
     geom_point(aes(y=Temp, color='Temp')) + 
     geom_point(aes(y=Wind, color='Wind')) + 
