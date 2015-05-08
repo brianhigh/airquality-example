@@ -1,0 +1,115 @@
+---
+title: "Air Quality Data Exploration"
+author: "Brian High"
+date: "Thursday, May 07, 2015"
+---
+
+Load the dataset
+----------------
+
+Let's explore the [New York Air Quality Measurements](http://stat.ethz.ch/R-manual/R-patched/library/datasets/html/airquality.html) from R's `dataset` package. We'll start
+by loading the dataset and examining the structure.
+
+```{r}
+library(datasets)
+data(airquality)
+
+str(airquality)
+```
+
+View some rows
+--------------
+
+It is always a good idea to take a look at a few rows of data to get oriented.
+
+```{r}
+head(airquality)
+tail(airquality)
+```
+
+Basic statistical summary
+-------------------------
+
+With `summary`, we get a quick view of `NA`s, max, min, median, mean and first 
+and third quartiles.
+
+```{r}
+summary(airquality)
+```
+
+Pairwise matrix of scatterplots
+-------------------------------
+
+Using `pairs`, we can examine relationships between pairs of variables.
+
+```{r}
+pairs(airquality, panel = panel.smooth)
+```
+
+Linear model fit
+----------------
+
+We can produce a summary of linear model fit statistics with `lm` and `summary`.
+
+```{r}
+summary(lm(Ozone ~ Wind + Solar.R + Temp, data = airquality))
+```
+
+Remove the NA values
+--------------------
+
+To avoid warnings with `qplot` and `ggplot`, we first need to remove the `NA` 
+values with `na.omit`. We will create a new `data.frame` in the process, so that
+the original dataset will remain unchanged.
+
+```{r}
+df <- na.omit(as.data.frame(airquality))
+summary(df)
+```
+
+Plot Ozone versus Temp
+----------------------
+
+Plot `Ozone` versus `Temp` with a linear regression fit using `qplot` and `method="lm"`.
+
+```{r}
+library(ggplot2)
+qplot(Temp, Ozone, data=df, geom=c("point", "smooth"), method="lm")
+```
+
+Add a Date column
+-----------------
+
+Knowing the data was collected in 1973, we can combine this year with the `Month` 
+and `Day` to get a `Date` column. That will allow us to produce a time series plot.
+
+```{r}
+df$Date <- as.Date(paste("1973", df$Month, df$Day, sep="-"), "%Y-%m-%d")
+str(df)
+```
+
+Reshape Temp and Ozone
+----------------------
+
+We will `select` only the `Temp`, `Ozone`, and `Date` variables, then "reshape"
+the dataset into a "long" format with `melt`.
+
+```{r}
+suppressMessages(library(dplyr))
+df <- select(df, Temp, Ozone, Date) 
+
+library(reshape2)
+df <- melt(df, id="Date")
+
+str(df)
+```
+
+Time Series Plot
+----------------
+
+Now we can plot `Temp` and `Ozone` in a time series, with "loess" curves. 
+
+```{r}
+ggplot(df, aes(x=Date, y=value, colour=variable, group=variable)) +
+   geom_point(aes(y=value, colour=variable)) + geom_smooth(method="loess")
+```
