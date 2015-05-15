@@ -9,11 +9,12 @@ Load the required packages.
 
 
 ```r
+# Load required packages. Install packages when necessary.
 for (pkg in c("dplyr", "reshape2", "ggplot2")) {
-    if (! require(pkg, character.only=TRUE)) { 
-        install.packages(pkg, repos="http://cran.fhcrc.org", dependencies=TRUE)
-        suppressPackageStartupMessages(library(pkg, character.only=TRUE))
-    }
+  if (! suppressWarnings(require(pkg, character.only=TRUE))) {
+    install.packages(pkg, repos="http://cran.fhcrc.org", dependencies=TRUE)
+    suppressWarnings(require(pkg, character.only=TRUE))
+  }
 }
 ```
 

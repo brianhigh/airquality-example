@@ -70,11 +70,12 @@ img {
 <div id="setup" class="section level2">
 <h2>Setup</h2>
 <p>Load the required packages.</p>
-<pre class="r"><code>for (pkg in c(&quot;dplyr&quot;, &quot;reshape2&quot;, &quot;ggplot2&quot;)) {
-    if (! require(pkg, character.only=TRUE)) { 
-        install.packages(pkg, repos=&quot;http://cran.fhcrc.org&quot;, dependencies=TRUE)
-        suppressPackageStartupMessages(library(pkg, character.only=TRUE))
-    }
+<pre class="r"><code># Load required packages. Install packages when necessary.
+for (pkg in c(&quot;dplyr&quot;, &quot;reshape2&quot;, &quot;ggplot2&quot;)) {
+  if (! suppressWarnings(require(pkg, character.only=TRUE))) {
+    install.packages(pkg, repos=&quot;http://cran.fhcrc.org&quot;, dependencies=TRUE)
+    suppressWarnings(require(pkg, character.only=TRUE))
+  }
 }</code></pre>
 </div>
 <div id="load-the-dataset" class="section level2">
