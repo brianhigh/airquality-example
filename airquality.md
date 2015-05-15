@@ -2,6 +2,21 @@
 Brian High  
 Thursday, May 07, 2015  
 
+Setup
+-----
+
+Load the required packages.
+
+
+```r
+for (pkg in c("dplyr", "reshape2", "ggplot2")) {
+    if (! require(pkg, character.only=TRUE)) { 
+        install.packages(pkg, repos="http://cran.fhcrc.org", dependencies=TRUE)
+        suppressPackageStartupMessages(library(pkg, character.only=TRUE))
+    }
+}
+```
+
 Load the dataset
 ----------------
 
@@ -100,7 +115,7 @@ Using `pairs`, we can examine relationships between pairs of variables.
 pairs(airquality, panel = panel.smooth)
 ```
 
-![](airquality_files/figure-html/unnamed-chunk-4-1.png) 
+![](airquality_files/figure-html/unnamed-chunk-5-1.png) 
 
 Linear model fit
 ----------------
@@ -173,11 +188,10 @@ Plot `Ozone` versus `Temp` with a linear regression fit using `qplot` and `metho
 
 
 ```r
-library(ggplot2)
 qplot(Temp, Ozone, data=df, geom=c("point", "smooth"), method="lm")
 ```
 
-![](airquality_files/figure-html/unnamed-chunk-7-1.png) 
+![](airquality_files/figure-html/unnamed-chunk-8-1.png) 
 
 Add a Date column
 -----------------
@@ -212,10 +226,7 @@ the dataset into a "long" format with `melt`.
 
 
 ```r
-suppressMessages(library(dplyr))
 df <- select(df, Temp, Ozone, Date) 
-
-library(reshape2)
 df <- melt(df, id="Date")
 
 str(df)
@@ -239,4 +250,4 @@ ggplot(df, aes(x=Date, y=value, colour=variable, group=variable)) +
    geom_point(aes(y=value, colour=variable)) + geom_smooth(method="loess")
 ```
 
-![](airquality_files/figure-html/unnamed-chunk-10-1.png) 
+![](airquality_files/figure-html/unnamed-chunk-11-1.png) 

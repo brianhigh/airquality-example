@@ -7,6 +7,20 @@ output:
         keep_md: yes
 ---
 
+Setup
+-----
+
+Load the required packages.
+
+```{r, echo=TRUE, message=FALSE}
+for (pkg in c("dplyr", "reshape2", "ggplot2")) {
+    if (! require(pkg, character.only=TRUE)) { 
+        install.packages(pkg, repos="http://cran.fhcrc.org", dependencies=TRUE)
+        suppressPackageStartupMessages(library(pkg, character.only=TRUE))
+    }
+}
+```
+
 Load the dataset
 ----------------
 
@@ -76,7 +90,6 @@ Plot Ozone versus Temp
 Plot `Ozone` versus `Temp` with a linear regression fit using `qplot` and `method="lm"`.
 
 ```{r}
-library(ggplot2)
 qplot(Temp, Ozone, data=df, geom=c("point", "smooth"), method="lm")
 ```
 
@@ -98,10 +111,7 @@ We will `select` only the `Temp`, `Ozone`, and `Date` variables, then "reshape"
 the dataset into a "long" format with `melt`.
 
 ```{r}
-suppressMessages(library(dplyr))
 df <- select(df, Temp, Ozone, Date) 
-
-library(reshape2)
 df <- melt(df, id="Date")
 
 str(df)
