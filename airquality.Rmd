@@ -1,7 +1,7 @@
 ---
 title: "Air Quality Data Exploration"
 author: "Brian High"
-date: "Thursday, May 07, 2015"
+date: "Saturday, May 16, 2015"
 output: 
     html_document:
         keep_md: yes
@@ -15,10 +15,12 @@ Load the required packages.
 ```{r, echo=TRUE, message=FALSE}
 # Load required packages. Install packages when necessary.
 for (pkg in c("dplyr", "reshape2", "ggplot2")) {
-  if (! suppressWarnings(require(pkg, character.only=TRUE))) {
-    install.packages(pkg, repos="http://cran.fhcrc.org", dependencies=TRUE)
-    suppressWarnings(require(pkg, character.only=TRUE))
-  }
+    if (! suppressWarnings(require(pkg, character.only=TRUE))) {
+        install.packages(pkg, repos="http://cran.fhcrc.org", dependencies=TRUE)
+        if (! suppressWarnings(require(pkg, character.only=TRUE)) ) {
+            stop(paste0(c("Can't load package: ", pkg, "!"), collapse = ""))
+        }
+    }
 }
 ```
 

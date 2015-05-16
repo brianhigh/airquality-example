@@ -63,7 +63,7 @@ img {
 <div id="header">
 <h1 class="title">Air Quality Data Exploration</h1>
 <h4 class="author"><em>Brian High</em></h4>
-<h4 class="date"><em>Thursday, May 07, 2015</em></h4>
+<h4 class="date"><em>Saturday, May 16, 2015</em></h4>
 </div>
 
 
@@ -72,10 +72,12 @@ img {
 <p>Load the required packages.</p>
 <pre class="r"><code># Load required packages. Install packages when necessary.
 for (pkg in c(&quot;dplyr&quot;, &quot;reshape2&quot;, &quot;ggplot2&quot;)) {
-  if (! suppressWarnings(require(pkg, character.only=TRUE))) {
-    install.packages(pkg, repos=&quot;http://cran.fhcrc.org&quot;, dependencies=TRUE)
-    suppressWarnings(require(pkg, character.only=TRUE))
-  }
+    if (! suppressWarnings(require(pkg, character.only=TRUE))) {
+        install.packages(pkg, repos=&quot;http://cran.fhcrc.org&quot;, dependencies=TRUE)
+        if (! suppressWarnings(require(pkg, character.only=TRUE)) ) {
+            stop(paste0(c(&quot;Can't load package: &quot;, pkg, &quot;!&quot;), collapse = &quot;&quot;))
+        }
+    }
 }</code></pre>
 </div>
 <div id="load-the-dataset" class="section level2">

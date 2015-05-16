@@ -1,6 +1,6 @@
 # Air Quality Data Exploration
 Brian High  
-Thursday, May 07, 2015  
+Saturday, May 16, 2015  
 
 Setup
 -----
@@ -11,10 +11,12 @@ Load the required packages.
 ```r
 # Load required packages. Install packages when necessary.
 for (pkg in c("dplyr", "reshape2", "ggplot2")) {
-  if (! suppressWarnings(require(pkg, character.only=TRUE))) {
-    install.packages(pkg, repos="http://cran.fhcrc.org", dependencies=TRUE)
-    suppressWarnings(require(pkg, character.only=TRUE))
-  }
+    if (! suppressWarnings(require(pkg, character.only=TRUE))) {
+        install.packages(pkg, repos="http://cran.fhcrc.org", dependencies=TRUE)
+        if (! suppressWarnings(require(pkg, character.only=TRUE)) ) {
+            stop(paste0(c("Can't load package: ", pkg, "!"), collapse = ""))
+        }
+    }
 }
 ```
 
