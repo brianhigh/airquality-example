@@ -2,9 +2,10 @@
 title: "Air Quality Data Exploration"
 author: "Brian High"
 date: "Saturday, May 16, 2015"
-output: 
-    html_document:
-        keep_md: yes
+output:
+  pdf_document: default
+  html_document:
+    keep_md: yes
 ---
 
 Setup
@@ -13,15 +14,15 @@ Setup
 Load the required packages.
 
 ```{r, echo=TRUE, message=FALSE}
-# Load required packages. Install packages when necessary.
-for (pkg in c("dplyr", "reshape2", "ggplot2")) {
-    if (! suppressWarnings(require(pkg, character.only=TRUE))) {
-        install.packages(pkg, repos="http://cran.fhcrc.org", dependencies=TRUE)
-        if (! suppressWarnings(require(pkg, character.only=TRUE)) ) {
-            stop(paste0(c("Can't load package: ", pkg, "!"), collapse = ""))
-        }
-    }
+# Load one or more packages into memory, installing as needed.
+load.pkgs <- function(pkgs, repos = "http://cran.r-project.org") {
+    result <- sapply(pkgs, function(pkg) { 
+        if (!suppressWarnings(require(pkg, character.only = TRUE))) {
+            install.packages(pkg, quiet = TRUE, repos = repos)
+            library(pkg, character.only = TRUE)}})
 }
+
+load.pkgs(c("dplyr", "reshape2", "ggplot2"))
 ```
 
 Load the dataset
@@ -90,10 +91,11 @@ summary(df)
 Plot Ozone versus Temp
 ----------------------
 
-Plot `Ozone` versus `Temp` with a linear regression fit using `qplot` and `method="lm"`.
+Plot `Ozone` versus `Temp` with a linear regression fit using `ggplot` and `method="lm"`.
 
 ```{r}
-qplot(Temp, Ozone, data=df, geom=c("point", "smooth"), method="lm")
+ggplot(df, aes(x = Temp, y = Ozone)) + 
+  geom_point() + stat_smooth(method = "lm")
 ```
 
 Add a Date column

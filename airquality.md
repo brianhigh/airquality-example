@@ -9,15 +9,15 @@ Load the required packages.
 
 
 ```r
-# Load required packages. Install packages when necessary.
-for (pkg in c("dplyr", "reshape2", "ggplot2")) {
-    if (! suppressWarnings(require(pkg, character.only=TRUE))) {
-        install.packages(pkg, repos="http://cran.fhcrc.org", dependencies=TRUE)
-        if (! suppressWarnings(require(pkg, character.only=TRUE)) ) {
-            stop(paste0(c("Can't load package: ", pkg, "!"), collapse = ""))
-        }
-    }
+# Load one or more packages into memory, installing as needed.
+load.pkgs <- function(pkgs, repos = "http://cran.r-project.org") {
+    result <- sapply(pkgs, function(pkg) { 
+        if (!suppressWarnings(require(pkg, character.only = TRUE))) {
+            install.packages(pkg, quiet = TRUE, repos = repos)
+            library(pkg, character.only = TRUE)}})
 }
+
+load.pkgs(c("dplyr", "reshape2", "ggplot2"))
 ```
 
 Load the dataset
@@ -118,7 +118,7 @@ Using `pairs`, we can examine relationships between pairs of variables.
 pairs(airquality, panel = panel.smooth)
 ```
 
-![](airquality_files/figure-html/unnamed-chunk-5-1.png) 
+![](airquality_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
 Linear model fit
 ----------------
@@ -187,14 +187,15 @@ summary(df)
 Plot Ozone versus Temp
 ----------------------
 
-Plot `Ozone` versus `Temp` with a linear regression fit using `qplot` and `method="lm"`.
+Plot `Ozone` versus `Temp` with a linear regression fit using `ggplot` and `method="lm"`.
 
 
 ```r
-qplot(Temp, Ozone, data=df, geom=c("point", "smooth"), method="lm")
+ggplot(df, aes(x = Temp, y = Ozone)) + 
+  geom_point() + stat_smooth(method = "lm")
 ```
 
-![](airquality_files/figure-html/unnamed-chunk-8-1.png) 
+![](airquality_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
 
 Add a Date column
 -----------------
@@ -253,4 +254,4 @@ ggplot(df, aes(x=Date, y=value, colour=variable, group=variable)) +
    geom_point(aes(y=value, colour=variable)) + geom_smooth(method="loess")
 ```
 
-![](airquality_files/figure-html/unnamed-chunk-11-1.png) 
+![](airquality_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
